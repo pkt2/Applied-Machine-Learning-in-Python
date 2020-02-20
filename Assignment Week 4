@@ -9,16 +9,16 @@ def blight_model():
     latlons_data = pd.read_csv("latlons.csv")
     
     # Cheking how our data looks like
-    #print(train_data.shape)
+    print(train_data.shape)
     train_data.head()
     
-    #print(test_data.shape)
+    print(test_data.shape)
     test_data.head()
     
-    #print(address_data.shape)
+    print(address_data.shape)
     address_data.head()
     
-    #print(latlons_data.shape)
+    print(latlons_data.shape)
     latlons_data.head()
     
     # Setting up the compliance variable
@@ -51,8 +51,8 @@ def blight_model():
                 'city', 'state', 'zip_code', 'address'], axis = 1, inplace = True)
     
     # Let's check the training and testing sample data
-    #print(train_data.shape)
-    #print(test_data.shape)
+    print(train_data.shape)
+    print(test_data.shape)
     train_data.head()
     
     # DATA ANALYSIS
@@ -98,10 +98,10 @@ def blight_model():
                                                         train_data["compliance"],random_state = 0)
     
     # Lets check the no. of data elements in our new train and test sets
-    #print(X_train.shape)
-    #print(y_train.shape)
-    #print(X_test.shape)
-    #print(y_test.shape)
+    print(X_train.shape)
+    print(y_train.shape)
+    print(X_test.shape)
+    print(y_test.shape)
     
     # Using the Logistic Regression Model
     from sklearn.linear_model import LogisticRegression
@@ -112,16 +112,16 @@ def blight_model():
     y1_predicted = lg.predict(X_test)
     lg_score_train = lg.score(X_train, y_train)
     lg_score_test = lg.score(X_test, y_test)
-    #print(y1_predicted)
-    #print("Training set score", lg_score_train)  # 0.92761950829
-    #print("Testing set score",lg_score_test)     # 0.926569927446
+    print(y1_predicted)
+    print("Training set score", lg_score_train)  # 0.92761950829
+    print("Testing set score",lg_score_test)     # 0.926569927446
     
     # Getting the predicted probability scores
     y1_scores = lg.predict_proba(X_test)
     y1_scores = y1_scores[:,1]
-    #print(y1_scores)
+    print(y1_scores)
     # Area under curve
-    #print("Test set AUC:", roc_auc_score(y_test, y1_scores))  # 0.755890845396
+    print("Test set AUC:", roc_auc_score(y_test, y1_scores))  # 0.755890845396
     
     # Building a Random Forets Model
     from sklearn.ensemble import RandomForestClassifier
@@ -131,8 +131,8 @@ def blight_model():
     grid_values = {'n_estimators': [10, 100], 'max_depth': [None, 30]}
     grid_rf_auc = GridSearchCV(rf, param_grid = grid_values, scoring = "roc_auc")
     grid_rf_auc.fit(X_train, y_train)
-    #print("Best parameters:", grid_rf_auc.best_params_)  # 'max_depth': 30, 'n_estimators': 100
-    #print("Grid best AUC:", grid_rf_auc.best_score_)     # 0.809419694139
+    print("Best parameters:", grid_rf_auc.best_params_)  # 'max_depth': 30, 'n_estimators': 100
+    print("Grid best AUC:", grid_rf_auc.best_score_)     # 0.809419694139
      
     return pd.DataFrame(grid_rf_auc.predict_proba(test_data)[:,1], test_data.ticket_id)
 
